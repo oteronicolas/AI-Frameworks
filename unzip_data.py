@@ -1,6 +1,7 @@
 import zipfile
 import os
 
+path="./"
 def unzip_file(zip_file, extract_dir):
 
     if not os.path.exists(zip_file):
@@ -19,10 +20,6 @@ def unzip_file(zip_file, extract_dir):
     except Exception as e:
         print(f"An error occurred: {e}")
 
-
-
-zip_file_path = [r'C:\Users\alexa\Desktop\projet aif\movies_metadata.csv.zip',
-                 r'C:\Users\alexa\Desktop\projet aif\ratings.csv.zip']
 extraction_directory = './extract_data/'
 
-unzip_file(r'C:\Users\alexa\Desktop\projet aif\movielens-20m-posters-for-machine-learning.zip', extraction_directory)
+unzip_file('./movielens-20m-posters-for-machine-learning.zip', extraction_directory)
