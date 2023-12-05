@@ -6,6 +6,7 @@ import requests
 import io
 import json
 import pandas
+import os
 
 def similar_poster(image):
     #df = create_df('./extracted_data//movielens-20m-posters-for-machine-learning/MLP-20M')
@@ -21,6 +22,7 @@ def similar_poster(image):
     response = requests.post("http://127.0.0.1:5000/predict", data=jsonData, headers=headers)
     pred = df.iloc[response.json()["prediction"]]
     paths=pred.path
+    paths = [path.replace("\\", "/")for path in paths]
     print(paths)
     if response.status_code == 200:
         similar_images = [Image.open(path) for path in paths]
