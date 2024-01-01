@@ -12,7 +12,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 import numpy as np
 
 
-############################    
+############################    creation df etc ############# 
 nltk.download('punkt')
 nltk.download('stopwords')
 # Download stopwords list
