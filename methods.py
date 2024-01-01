@@ -8,18 +8,7 @@ from torch.utils.data import DataLoader
 import torchvision.transforms as transforms
 import torchvision.models as models
 import torch
-
-def main():
-    freeze_support()  # Add this line to support multiprocessing in Windows
-    dico = {'df': create_df('./extracted_data/movielens-20m-posters-for-machine-learning/MLP-20M'),
-            'n_reco': 5,
-            'index': 16}
-    print(dico['df'].head())
-    print(dico)
-
-if __name__ == '__main__':
-    main()
-
+from PIL import Image
 
 class ImageAndPathsDataset(datasets.ImageFolder):
     def __getitem__(self, index):
@@ -63,6 +52,24 @@ def create_df(path_folder):
         'path': paths_list
         })
     return df
+
+def extract_features_from_image(img):
+    model = models.mobilenet_v3_small(weights=models.MobileNet_V3_Small_Weights)
+    model.classifier = nn.Flatten()
+    transform = transforms.Compose([
+        transforms.Resize((224, 224)),
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+    ])
+
+    img_tensor = transform(img).unsqueeze(0)
+
+    with torch.no_grad():
+        model.eval()
+        features = model(img_tensor)
+
+    return features.numpy().flatten()
+
 
 
 def recommandations(idx,n_reco):
